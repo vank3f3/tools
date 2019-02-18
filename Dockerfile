@@ -1,22 +1,31 @@
-#
-# Alpine linux docker image with OpenSSH client
-#
-# A minimal base image based on Alpine Linux with OpenSSH client
-#
+FROM ubuntu:16.04
+MAINTAINER vank3f3
 
-FROM alpine:3.7
 LABEL vendor="vank3f3" \
       release-date="2019-02-18" \
       version="0.0.1"
 
-# Set environment variables.
-ENV TERM=xterm-color
+RUN apt-get update && \
+    apt-get upgrade -y && \
+    apt-get install -y apt-utils && \
+    apt-get install -y  \
+			curl \
+			wget \
+			net-tools \
+			iputils-ping \
+			iproute2 \
+			mtr && \
+    apt-get clean all && rm -rf /var/lib/apt/lists/*		
 
-# Install packages.
-RUN apk --update add bash openssh-client iproute2 curl drill mtr iftop && \
-    rm -rf /var/cache/apk/*
+RUN apt-get update && \
+    apt-get upgrade -y && \
+    apt-get install -y nano \
+	               openssh-client \
+		       strace \
+		       tcpdump \
+		       iftop && \
+    apt-get clean all && rm -rf /var/lib/apt/lists/* 
 
-# Set the default command.
-WORKDIR /root
+WORKDIR /bin
 USER root
 CMD ["ping","localhost"]

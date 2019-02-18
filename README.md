@@ -1,6 +1,6 @@
 
 # tools
-some tools in ubuntu1604 docker
+some tools in alpine docker
 
 `docker run -d --restart=always ---name tools lihaixin/tools`
 
